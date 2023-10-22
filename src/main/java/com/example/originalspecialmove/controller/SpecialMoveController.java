@@ -37,7 +37,7 @@ public class SpecialMoveController {
         String fileName = fileStorageService.fileUpload(image);
 
         SpecialMove specialMove = new SpecialMove();
-        specialMove.setName(name);
+        specialMove.setSpName(name);
         specialMove.setFurigana(furigana);
         specialMove.setHeading(heading);
         specialMove.setDescription(description);
@@ -48,7 +48,7 @@ public class SpecialMoveController {
         SpecialMoveGallary spg = new SpecialMoveGallary();
         spg.setLineUserId(lineUserId);
         spg.setAuthorLineUserId(lineUserId);
-        spg.setSpecialMove(sp);
+        spg.setSpecialMoveId(sp.getId());
         service.saveSPG(spg);
     }
 }

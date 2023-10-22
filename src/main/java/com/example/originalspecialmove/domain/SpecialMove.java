@@ -20,7 +20,7 @@ public class SpecialMove {
     private Long id;
     private String userId;
 
-    private String name;
+    private String spName;
     private String furigana;
     private String heading;
     private String description;

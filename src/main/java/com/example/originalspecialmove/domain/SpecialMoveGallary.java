@@ -19,6 +19,5 @@ public class SpecialMoveGallary {
     private Long id;
     private String lineUserId;
     private String authorLineUserId;
-    @OneToOne
-    private SpecialMove specialMove;
+    private Long specialMoveId;
 }
