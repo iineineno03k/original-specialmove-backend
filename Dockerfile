@@ -1,14 +1,19 @@
 # ビルドステージ
 FROM amazoncorretto:17 AS build
-WORKDIR /home/app
-COPY ./src /home/app/src
-COPY build.gradle settings.gradle /home/app/
-RUN chmod +x ./gradlew
+# コンテナ内の作業ディレクトリを設定
+WORKDIR /app
+# Gradle Wrapperをコピー
+COPY gradlew .
+COPY gradle gradle
+# Gradleの依存関係をコピー
+COPY build.gradle .
+COPY settings.gradle .
+COPY gradle.properties .
+# プロジェクトのソースコードをコピー
+COPY src src
+# 依存関係を解決してビルド
 RUN ./gradlew build
-
-# 実行ステージ
-FROM amazoncorretto:17-alpine
-WORKDIR /usr/local/lib
-COPY --from=build /home/app/build/libs/original-specialmove-0.0.1-SNAPSHOT.jar original-specialmove.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "-Dfile.encoding=UTF-8", "original-specialmove.jar"]
+# ビルドが成功したら、JARファイルをコピー
+COPY build/libs/original-specialmove-0.0.1-SNAPSHOT.jar app.jar
+# アプリケーションを実行
+CMD ["java", "-jar", "app.jar"]
