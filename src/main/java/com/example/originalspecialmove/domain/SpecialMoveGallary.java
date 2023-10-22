@@ -5,12 +5,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @NoArgsConstructor
 @Setter
+@Entity
+@Table(name = "special_move_gallary")
 public class SpecialMoveGallary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
