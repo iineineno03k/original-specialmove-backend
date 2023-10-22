@@ -8,7 +8,6 @@ COPY gradle gradle
 # Gradleの依存関係をコピー
 COPY build.gradle .
 COPY settings.gradle .
-COPY gradle.properties .
 # プロジェクトのソースコードをコピー
 COPY src src
 # 依存関係を解決してビルド
