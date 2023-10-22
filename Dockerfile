@@ -3,6 +3,7 @@ FROM amazoncorretto:17 AS build
 WORKDIR /home/app
 COPY ./src /home/app/src
 COPY build.gradle settings.gradle /home/app/
+RUN chmod +x ./gradlew
 RUN ./gradlew build
 
 # 実行ステージ
