@@ -1,5 +1,7 @@
 package com.example.originalspecialmove.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,14 +45,14 @@ public class SpecialMoveController {
         specialMove.setDescription(description);
         specialMove.setImageName(fileName);
         specialMove.setUserId(lineUserId);
+        specialMove.setRegistedTime(LocalDateTime.now());
         SpecialMove sp = service.saveSpecialMove(specialMove);
 
         SpecialMoveGallary spg = new SpecialMoveGallary();
         spg.setLineUserId(lineUserId);
         spg.setAuthorLineUserId(lineUserId);
         spg.setSpecialMoveId(sp.getId());
+        spg.setGetTime(LocalDateTime.now());
         service.saveSPG(spg);
     }
 }
-// todo デプロイ用DBとつなげる
-// todo デプロイする、heroku

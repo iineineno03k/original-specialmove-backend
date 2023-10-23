@@ -1,10 +1,11 @@
 package com.example.originalspecialmove.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,4 +21,5 @@ public class SpecialMoveGallary {
     private String lineUserId;
     private String authorLineUserId;
     private Long specialMoveId;
+    private LocalDateTime getTime;
 }

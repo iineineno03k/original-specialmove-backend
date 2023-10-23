@@ -1,5 +1,7 @@
 package com.example.originalspecialmove.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,7 @@ public class SpecialMove {
     private String heading;
     private String description;
     private String imageName;
+    private LocalDateTime registedTime;
     // 戦績
     private int battleCount;
     private int winCount;
