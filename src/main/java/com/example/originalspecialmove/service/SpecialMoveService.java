@@ -74,9 +74,7 @@ public class SpecialMoveService {
     }
 
     public void deleteDeck(Long deckId) {
-        SpecialMoveDeck spDeck = spDeckRepository.getReferenceById(deckId);
-        spDeck.setSetting(false);
-        spDeckRepository.save(spDeck);
+        spDeckRepository.deleteById(deckId);
     }
 
     // @PostConstruct
