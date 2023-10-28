@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.originalspecialmove.domain.SpecialMove;
+import com.example.originalspecialmove.domain.SpecialMoveDeck;
 import com.example.originalspecialmove.domain.SpecialMoveGallary;
+import com.example.originalspecialmove.domain.dto.SpecialMoveDeckDto;
 import com.example.originalspecialmove.domain.dto.SpecialMoveDto;
 import com.example.originalspecialmove.service.FileStorageService;
 import com.example.originalspecialmove.service.LineUserService;
@@ -62,11 +64,44 @@ public class SpecialMoveController {
     @ResponseBody
     @PostMapping(value = "/get-specialmove")
     public ResponseEntity<List<SpecialMoveDto>> getSpecialMove(@RequestParam String idToken) throws Exception {
-        // String lineUserId = lineUserService.getLineUser(idToken);
-        String lineUserId = "U5a62fcb7b4777ad78174bb14a4c31a59";
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "U5a62fcb7b4777ad78174bb14a4c31a59";
 
         List<SpecialMoveDto> spList = service.getSpecialMove(lineUserId);
 
         return ResponseEntity.ok(spList);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/post-specialmove-deck")
+    public SpecialMoveDeckDto postSpDeck(@RequestParam String idToken, @RequestParam SpecialMoveDto sp)
+            throws Exception {
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "U5a62fcb7b4777ad78174bb14a4c31a59";
+
+        SpecialMoveDeck spDeck = new SpecialMoveDeck();
+
+        spDeck.setLineUserId(lineUserId);
+        spDeck.setSpecialMoveId(sp.getId());
+        spDeck.setSettingTime(LocalDateTime.now());
+        spDeck.setSetting(true);
+        return new SpecialMoveDeckDto(sp, service.saveSpecialMoveDeck(spDeck).getId());
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/get-specialmove-deck")
+    public ResponseEntity<List<SpecialMoveDeckDto>> getSpDeck(@RequestParam String idToken) throws Exception {
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "U5a62fcb7b4777ad78174bb14a4c31a59";
+
+        List<SpecialMoveDeckDto> spList = service.getSpecialMoveDeck(lineUserId);
+
+        return ResponseEntity.ok(spList);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/put-specialmove-deck")
+    public void putSpDeck(@RequestParam Long deckId) {
+        service.deleteDeck(deckId);
     }
 }
