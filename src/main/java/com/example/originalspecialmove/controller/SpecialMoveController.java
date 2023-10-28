@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import com.example.originalspecialmove.domain.SpecialMoveDeck;
 import com.example.originalspecialmove.domain.SpecialMoveGallary;
 import com.example.originalspecialmove.domain.dto.SpecialMoveDeckDto;
 import com.example.originalspecialmove.domain.dto.SpecialMoveDto;
+import com.example.originalspecialmove.request.SpecialMoveDeckRequest;
 import com.example.originalspecialmove.service.FileStorageService;
 import com.example.originalspecialmove.service.LineUserService;
 import com.example.originalspecialmove.service.SpecialMoveService;
@@ -73,19 +75,19 @@ public class SpecialMoveController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/post-specialmove-deck")
-    public SpecialMoveDeckDto postSpDeck(@RequestParam String idToken, @RequestParam SpecialMoveDto sp)
+    @PostMapping(value = "/post-specialmove-deck", consumes = "application/json")
+    public SpecialMoveDeckDto postSpDeck(@RequestBody SpecialMoveDeckRequest request)
             throws Exception {
-        String lineUserId = lineUserService.getLineUser(idToken);
+        String lineUserId = lineUserService.getLineUser(request.getIdToken());
         // String lineUserId = "U5a62fcb7b4777ad78174bb14a4c31a59";
 
         SpecialMoveDeck spDeck = new SpecialMoveDeck();
 
         spDeck.setLineUserId(lineUserId);
-        spDeck.setSpecialMoveId(sp.getId());
+        spDeck.setSpecialMoveId(request.getSp().getId());
         spDeck.setSettingTime(LocalDateTime.now());
         spDeck.setSetting(true);
-        return new SpecialMoveDeckDto(sp, service.saveSpecialMoveDeck(spDeck).getId());
+        return new SpecialMoveDeckDto(request.getSp(), service.saveSpecialMoveDeck(spDeck).getId());
     }
 
     @ResponseBody

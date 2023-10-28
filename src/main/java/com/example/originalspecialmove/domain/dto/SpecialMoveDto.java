@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import com.example.originalspecialmove.domain.SpecialMove;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class SpecialMoveDto {
     private Long id;
     private String userId;
