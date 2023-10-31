@@ -7,11 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.originalspecialmove.domain.CheckedSp;
 import com.example.originalspecialmove.domain.SpecialMove;
 import com.example.originalspecialmove.domain.SpecialMoveDeck;
 import com.example.originalspecialmove.domain.SpecialMoveGallary;
+import com.example.originalspecialmove.domain.dto.CheckedSpDto;
 import com.example.originalspecialmove.domain.dto.SpecialMoveDeckDto;
 import com.example.originalspecialmove.domain.dto.SpecialMoveDto;
+import com.example.originalspecialmove.repository.CheckedSpRepository;
 import com.example.originalspecialmove.repository.SpecialMoveDeckRepository;
 import com.example.originalspecialmove.repository.SpecialMoveGallaryRepository;
 import com.example.originalspecialmove.repository.SpecialMoveRepository;
@@ -28,12 +31,24 @@ public class SpecialMoveService {
     private SpecialMoveGallaryRepository spgRepository;
     @Autowired
     private SpecialMoveDeckRepository spDeckRepository;
+    @Autowired
+    private CheckedSpRepository checkedSpRepository;
 
     public SpecialMove saveSpecialMove(SpecialMove specialMove) {
         return repository.save(specialMove);
     }
 
     public SpecialMoveGallary saveSPG(SpecialMoveGallary spg) {
+        return spgRepository.save(spg);
+    }
+
+    public SpecialMoveGallary registSPG(Long spId, String userId) {
+        SpecialMove sp = repository.getReferenceById(spId);
+        SpecialMoveGallary spg = new SpecialMoveGallary();
+        spg.setLineUserId(userId);
+        spg.setAuthorLineUserId(sp.getUserId());
+        spg.setSpecialMoveId(sp.getId());
+        spg.setGetTime(LocalDateTime.now());
         return spgRepository.save(spg);
     }
 
@@ -44,6 +59,18 @@ public class SpecialMoveService {
         for (SpecialMoveGallary spg : spgList) {
             SpecialMove sp = repository.getReferenceById(spg.getSpecialMoveId());
 
+            SpecialMoveDto spDto = new SpecialMoveDto(sp);
+            spList.add(spDto);
+        }
+
+        return spList;
+    }
+
+    public List<SpecialMoveDto> getSpecialMoveBattle(String userId) {
+        List<SpecialMove> specialMoves = repository.findByUserIdNot(userId);
+
+        List<SpecialMoveDto> spList = new ArrayList<>();
+        for (SpecialMove sp : specialMoves) {
             SpecialMoveDto spDto = new SpecialMoveDto(sp);
             spList.add(spDto);
         }
@@ -75,6 +102,30 @@ public class SpecialMoveService {
 
     public void deleteDeck(Long deckId) {
         spDeckRepository.deleteById(deckId);
+    }
+
+    public void updateSpBattleResult(Long spId, Long yourSpId) {
+        SpecialMove sp = repository.getReferenceById(spId);
+        SpecialMove yourSp = repository.getReferenceById(yourSpId);
+        repository.save(sp.winResult());
+        repository.save(yourSp.loseResult());
+    }
+
+    public void checkSp(Long spId, String userId) {
+        CheckedSp checkedSp = new CheckedSp();
+        checkedSp.setSpId(spId);
+        checkedSp.setUserId(userId);
+        checkedSp.setCheckedTime(LocalDateTime.now());
+        checkedSpRepository.save(checkedSp);
+    }
+
+    public List<CheckedSpDto> getCheckedSP(String userId) {
+        List<CheckedSp> checkedSps = checkedSpRepository.findByUserId(userId);
+        List<CheckedSpDto> checkedSpList = new ArrayList<>();
+        for (CheckedSp sp : checkedSps) {
+            checkedSpList.add(new CheckedSpDto(sp));
+        }
+        return checkedSpList;
     }
 
     // @PostConstruct

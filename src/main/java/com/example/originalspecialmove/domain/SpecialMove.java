@@ -36,4 +36,16 @@ public class SpecialMove {
     public String getImagePath() {
         return "https://pub-5c00d9cd767343259424b03f8a52941a.r2.dev/originalmove/" + imageName;
     }
+
+    public SpecialMove winResult() {
+        this.battleCount += 1;
+        this.winCount += 1;
+        return this;
+    }
+
+    public SpecialMove loseResult() {
+        this.battleCount += 1;
+        this.loseCount += 1;
+        return this;
+    }
 }
