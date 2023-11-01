@@ -33,6 +33,7 @@ dependencies {
 	//aws s3(Cloudflare R2)
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.342')
     implementation 'com.amazonaws:aws-java-sdk-s3'
+	implementation 'com.linecorp.bot:line-bot-spring-boot:6.0.0'
 	//PlanetScale DB
 	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 }

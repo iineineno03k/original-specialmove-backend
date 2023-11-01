@@ -1,6 +1,7 @@
 package com.example.originalspecialmove.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +24,21 @@ public class LineUserService {
     private ObjectMapper objectMapper;
 
     public String getLineUser(String idToken) throws JsonMappingException, JsonProcessingException {
+        JsonNode jsonNode = connectLineApi(idToken);
+        String subValue = jsonNode.get("sub").asText();
+
+        return subValue;
+    }
+
+    public Pair<String, String> getLineUserInfo(String idToken) throws JsonMappingException, JsonProcessingException {
+        JsonNode jsonNode = connectLineApi(idToken);
+        String subValue = jsonNode.get("sub").asText();
+        String userName = jsonNode.get("name").asText();
+
+        return Pair.of(subValue, userName);
+    }
+
+    private JsonNode connectLineApi(String idToken) throws JsonMappingException, JsonProcessingException {
         // リクエストボディを作成
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("id_token", idToken);
@@ -40,8 +56,6 @@ public class LineUserService {
         // レスポンスデータを取得
         String responseBody = response.getBody();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
-        String subValue = jsonNode.get("sub").asText();
-
-        return subValue;
+        return jsonNode;
     }
 }

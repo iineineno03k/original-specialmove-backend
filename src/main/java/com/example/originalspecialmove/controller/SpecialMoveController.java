@@ -1,6 +1,7 @@
 package com.example.originalspecialmove.controller;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,6 +101,7 @@ public class SpecialMoveController {
                         .noneMatch(checkedItem -> checkedItem.getSpId().equals(battleItem.getId())))
                 .collect(Collectors.toList());
 
+        Collections.shuffle(filteredBattleList);
         return ResponseEntity.ok(new BattleResponse(filteredBattleList, myGallary));
     }
 
