@@ -2,6 +2,7 @@ package com.example.originalspecialmove.controller.room;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.originalspecialmove.domain.Room;
@@ -24,7 +25,7 @@ public class LineBotController {
     private LineMessagingClient lineMessagingClient;
 
     @EventMapping
-    public void handleTextMessage(MessageEvent<TextMessageContent> event) {
+    public ResponseEntity<Void> handleTextMessage(MessageEvent<TextMessageContent> event) {
         String userMessage = event.getMessage().getText();
 
         if ("部屋を作成".equals(userMessage)) {
@@ -39,7 +40,10 @@ public class LineBotController {
 
             PushMessage pushMessage = new PushMessage(event.getSource().getUserId(), new TextMessage(replyMessage));
             lineMessagingClient.pushMessage(pushMessage);
+
+            return ResponseEntity.ok().build();
         }
+        return ResponseEntity.ok().build();
     }
 
     private String getRandomRoomCode() {
