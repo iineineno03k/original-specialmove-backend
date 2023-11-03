@@ -52,8 +52,7 @@ public class RoomController {
     @ResponseBody
     @PostMapping(value = "/rooms/battler")
     public void putBattler(@RequestBody RoomRequest request) throws Exception {
-        Pair<String, String> userInfo =
-        lineUserService.getLineUserInfo(request.getIdToken());
+        Pair<String, String> userInfo = lineUserService.getLineUserInfo(request.getIdToken());
         // Pair<String, String> userInfo = Pair.of("fuga", "稲田裕次郎");
 
         Room room = roomRepo.findByRoomCode(request.getRoomCode()).get();
@@ -109,6 +108,7 @@ public class RoomController {
         result.put(room.getAUserName(), deckA);
         result.put(room.getBUserName(), deckB);
 
+        System.out.println("デッキ内容は" + result);
         return ResponseEntity.ok(result);
     }
 
