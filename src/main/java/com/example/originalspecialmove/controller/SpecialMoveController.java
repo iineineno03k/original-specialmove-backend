@@ -72,16 +72,16 @@ public class SpecialMoveController {
     @ResponseBody
     @PostMapping(value = "/regist-gallary")
     public void registGallary(@RequestParam Long spId, @RequestParam String idToken) throws Exception {
-        // String lineUserId = lineUserService.getLineUser(idToken);
-        String lineUserId = "fuga";
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "fuga";
         service.registSPG(spId, lineUserId);
     }
 
     @ResponseBody
     @PostMapping(value = "/get-specialmove")
     public ResponseEntity<List<SpecialMoveDto>> getSpecialMove(@RequestParam String idToken) throws Exception {
-        // String lineUserId = lineUserService.getLineUser(idToken);
-        String lineUserId = "fuga";
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "fuga";
 
         List<SpecialMoveDto> spList = service.getSpecialMove(lineUserId);
 
@@ -91,8 +91,8 @@ public class SpecialMoveController {
     @ResponseBody
     @PostMapping(value = "/get-specialmove-battle")
     public ResponseEntity<BattleResponse> getSpecialMoveBattle(@RequestParam String idToken) throws Exception {
-        // String lineUserId = lineUserService.getLineUser(idToken);
-        String lineUserId = "fuga";
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "fuga";
 
         List<SpecialMoveDto> battleList = service.getSpecialMoveBattle(lineUserId);
         List<SpecialMoveDto> myGallary = service.getSpecialMove(lineUserId);
@@ -112,8 +112,8 @@ public class SpecialMoveController {
     @PostMapping(value = "/post-specialmove-deck", consumes = "application/json")
     public SpecialMoveDeckDto postSpDeck(@RequestBody SpecialMoveDeckRequest request)
             throws Exception {
-        // String lineUserId = lineUserService.getLineUser(request.getIdToken());
-        String lineUserId = "fuga";
+        String lineUserId = lineUserService.getLineUser(request.getIdToken());
+        // String lineUserId = "fuga";
 
         SpecialMoveDeck spDeck = new SpecialMoveDeck();
 
@@ -127,8 +127,8 @@ public class SpecialMoveController {
     @ResponseBody
     @PostMapping(value = "/get-specialmove-deck")
     public ResponseEntity<List<SpecialMoveDeckDto>> getSpDeck(@RequestParam String idToken) throws Exception {
-        // String lineUserId = lineUserService.getLineUser(idToken);
-        String lineUserId = "fuga";
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "fuga";
 
         List<SpecialMoveDeckDto> spList = service.getSpecialMoveDeck(lineUserId);
 
@@ -145,8 +145,8 @@ public class SpecialMoveController {
     @PostMapping(value = "/put-specialmove-battle")
     public void putSpBattle(@RequestParam Long spId, @RequestParam Long yourSpId, @RequestParam String idToken)
             throws Exception {
-        // String lineUserId = lineUserService.getLineUser(idToken);
-        String lineUserId = "fuga";
+        String lineUserId = lineUserService.getLineUser(idToken);
+        // String lineUserId = "fuga";
         service.updateSpBattleResult(spId, yourSpId);
         service.checkSp(yourSpId, lineUserId);
         service.checkSp(spId, lineUserId);

@@ -161,7 +161,7 @@ public class SpecialMoveService {
         return spList;
     }
 
-    @PostConstruct
+    // @PostConstruct
     public void init() {
         // テストデータ１
         SpecialMove sp = new SpecialMove();
