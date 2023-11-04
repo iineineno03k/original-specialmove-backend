@@ -1,5 +1,6 @@
 package com.example.originalspecialmove.controller;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,16 +72,16 @@ public class SpecialMoveController {
     @ResponseBody
     @PostMapping(value = "/regist-gallary")
     public void registGallary(@RequestParam Long spId, @RequestParam String idToken) throws Exception {
-        String lineUserId = lineUserService.getLineUser(idToken);
-        // String lineUserId = "fuga";
+        // String lineUserId = lineUserService.getLineUser(idToken);
+        String lineUserId = "fuga";
         service.registSPG(spId, lineUserId);
     }
 
     @ResponseBody
     @PostMapping(value = "/get-specialmove")
     public ResponseEntity<List<SpecialMoveDto>> getSpecialMove(@RequestParam String idToken) throws Exception {
-        String lineUserId = lineUserService.getLineUser(idToken);
-        // String lineUserId = "fuga";
+        // String lineUserId = lineUserService.getLineUser(idToken);
+        String lineUserId = "fuga";
 
         List<SpecialMoveDto> spList = service.getSpecialMove(lineUserId);
 
@@ -89,8 +91,8 @@ public class SpecialMoveController {
     @ResponseBody
     @PostMapping(value = "/get-specialmove-battle")
     public ResponseEntity<BattleResponse> getSpecialMoveBattle(@RequestParam String idToken) throws Exception {
-        String lineUserId = lineUserService.getLineUser(idToken);
-        // String lineUserId = "fuga";
+        // String lineUserId = lineUserService.getLineUser(idToken);
+        String lineUserId = "fuga";
 
         List<SpecialMoveDto> battleList = service.getSpecialMoveBattle(lineUserId);
         List<SpecialMoveDto> myGallary = service.getSpecialMove(lineUserId);
@@ -98,7 +100,8 @@ public class SpecialMoveController {
 
         List<SpecialMoveDto> filteredBattleList = battleList.stream()
                 .filter(battleItem -> checkedSpList.stream()
-                        .noneMatch(checkedItem -> checkedItem.getSpId().equals(battleItem.getId())))
+                        .noneMatch(checkedItem -> checkedItem.getSpId().equals(battleItem.getId()) &&
+                                Duration.between(checkedItem.getCheckedTime(), LocalDateTime.now()).toDays() < 1))
                 .collect(Collectors.toList());
 
         Collections.shuffle(filteredBattleList);
@@ -109,8 +112,8 @@ public class SpecialMoveController {
     @PostMapping(value = "/post-specialmove-deck", consumes = "application/json")
     public SpecialMoveDeckDto postSpDeck(@RequestBody SpecialMoveDeckRequest request)
             throws Exception {
-        String lineUserId = lineUserService.getLineUser(request.getIdToken());
-        // String lineUserId = "fuga";
+        // String lineUserId = lineUserService.getLineUser(request.getIdToken());
+        String lineUserId = "fuga";
 
         SpecialMoveDeck spDeck = new SpecialMoveDeck();
 
@@ -124,8 +127,8 @@ public class SpecialMoveController {
     @ResponseBody
     @PostMapping(value = "/get-specialmove-deck")
     public ResponseEntity<List<SpecialMoveDeckDto>> getSpDeck(@RequestParam String idToken) throws Exception {
-        String lineUserId = lineUserService.getLineUser(idToken);
-        // String lineUserId = "fuga";
+        // String lineUserId = lineUserService.getLineUser(idToken);
+        String lineUserId = "fuga";
 
         List<SpecialMoveDeckDto> spList = service.getSpecialMoveDeck(lineUserId);
 
@@ -142,10 +145,22 @@ public class SpecialMoveController {
     @PostMapping(value = "/put-specialmove-battle")
     public void putSpBattle(@RequestParam Long spId, @RequestParam Long yourSpId, @RequestParam String idToken)
             throws Exception {
-        String lineUserId = lineUserService.getLineUser(idToken);
-        // String lineUserId = "fuga";
+        // String lineUserId = lineUserService.getLineUser(idToken);
+        String lineUserId = "fuga";
         service.updateSpBattleResult(spId, yourSpId);
         service.checkSp(yourSpId, lineUserId);
+        service.checkSp(spId, lineUserId);
     }
 
+    @ResponseBody
+    @GetMapping(value = "/get-specialmove-ranking")
+    public ResponseEntity<List<SpecialMoveDto>> getRanking() {
+        return ResponseEntity.ok(service.getRanking());
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/get-specialmove-ranking-winrate")
+    public ResponseEntity<List<SpecialMoveDto>> getRankingWinRate() {
+        return ResponseEntity.ok(service.getTopTenByWinRateWithMinimumBattles());
+    }
 }

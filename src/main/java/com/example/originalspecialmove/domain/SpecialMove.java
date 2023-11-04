@@ -2,6 +2,8 @@ package com.example.originalspecialmove.domain;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.Formula;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +34,8 @@ public class SpecialMove {
     private int battleCount;
     private int winCount;
     private int loseCount;
+    @Formula("CASE WHEN battleCount > 0 THEN (winCount * 1.0 / battleCount) ELSE 0 END")
+    private double winRate;
 
     public String getImagePath() {
         return "https://pub-5c00d9cd767343259424b03f8a52941a.r2.dev/originalmove/" + imageName;

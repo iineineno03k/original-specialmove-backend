@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.originalspecialmove.domain.Room;
 import com.example.originalspecialmove.repository.RoomRepository;
 import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.PushMessage;
+import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.TextMessage;
@@ -36,10 +36,10 @@ public class LineBotController {
             room.setRoomCode(roomCode);
             roomRepo.save(room);
 
-            String replyMessage = "対戦ルームはこちらです！\n" + liffUrl;
+            TextMessage replyMessage = new TextMessage("対戦ルームはこちらです！\n" + liffUrl);
+            ReplyMessage reply = new ReplyMessage(event.getReplyToken(), replyMessage);
 
-            PushMessage pushMessage = new PushMessage(event.getSource().getUserId(), new TextMessage(replyMessage));
-            lineMessagingClient.pushMessage(pushMessage);
+            lineMessagingClient.replyMessage(reply);
 
             return ResponseEntity.ok().build();
         }

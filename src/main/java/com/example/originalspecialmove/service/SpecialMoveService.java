@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.originalspecialmove.domain.CheckedSp;
@@ -128,7 +132,36 @@ public class SpecialMoveService {
         return checkedSpList;
     }
 
-    // @PostConstruct
+    public List<SpecialMoveDto> getRanking() {
+        Pageable topTen = PageRequest.of(0, 10, Sort.by("winCount").descending());
+        Page<SpecialMove> topTenSpecialMoves = repository.findAllByOrderByWinCountDesc(topTen);
+        List<SpecialMove> topTenList = topTenSpecialMoves.getContent();
+
+        List<SpecialMoveDto> spList = new ArrayList<>();
+        for (SpecialMove sp : topTenList) {
+            SpecialMoveDto spDto = new SpecialMoveDto(sp);
+            spList.add(spDto);
+        }
+
+        return spList;
+    }
+
+    public List<SpecialMoveDto> getTopTenByWinRateWithMinimumBattles() {
+        // 上位10件だけを取得するPageableオブジェクトを作成
+        Pageable topTen = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "winRate", "battleCount"));
+        Page<SpecialMove> topTenSpecialMoves = repository.findTopByWinRateWithMinimumBattles(topTen);
+        List<SpecialMove> topTenList = topTenSpecialMoves.getContent();
+
+        List<SpecialMoveDto> spList = new ArrayList<>();
+        for (SpecialMove sp : topTenList) {
+            SpecialMoveDto spDto = new SpecialMoveDto(sp);
+            spList.add(spDto);
+        }
+
+        return spList;
+    }
+
+    @PostConstruct
     public void init() {
         // テストデータ１
         SpecialMove sp = new SpecialMove();
@@ -166,7 +199,7 @@ public class SpecialMoveService {
 
         // テストデータ３
         SpecialMove sp3 = new SpecialMove();
-        sp3.setUserId("fuga");
+        sp3.setUserId("hoge");
         sp3.setSpName("ノーイメージ");
         sp3.setFurigana(null);
         sp3.setHeading("シンプル・イズ・ベスト");
@@ -183,9 +216,9 @@ public class SpecialMoveService {
 
         // テストデータ４
         SpecialMove sp4 = new SpecialMove();
-        sp4.setUserId("fuga");
-        sp4.setSpName("つよつよわざ");
-        sp4.setFurigana(null);
+        sp4.setUserId("way");
+        sp4.setSpName("ときめき💛ヒューマンクラッシュ");
+        sp4.setFurigana("エリミネイト・マグナム");
         sp4.setHeading("己が身に骸を宿す、最凶最悪の魔");
         sp4.setDescription("愛する者の魂を継承し、骸として己の身に宿す。魔の力を手に入れることで、凶悪な魔力を発することができる。闇を統べる者が持つ力。");
         sp4.setImageName("qstLKSVVJuseZTYnSwls.png");
@@ -201,7 +234,7 @@ public class SpecialMoveService {
         // テストデータ５
         SpecialMove sp5 = new SpecialMove();
         sp5.setUserId("fuga");
-        sp5.setSpName("ほねほね");
+        sp5.setSpName("ダーク・ヴォーテックス");
         sp5.setFurigana(null);
         sp5.setHeading("己が身に骸を宿す、最凶最悪の魔");
         sp5.setDescription("愛する者の魂を継承し、骸として己の身に宿す。魔の力を手に入れることで、凶悪な魔力を発することができる。闇を統べる者が持つ力。");

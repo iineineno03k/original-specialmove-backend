@@ -52,8 +52,9 @@ public class RoomController {
     @ResponseBody
     @PostMapping(value = "/rooms/battler")
     public void putBattler(@RequestBody RoomRequest request) throws Exception {
-        Pair<String, String> userInfo = lineUserService.getLineUserInfo(request.getIdToken());
-        // Pair<String, String> userInfo = Pair.of("fuga", "稲田裕次郎");
+        // Pair<String, String> userInfo =
+        // lineUserService.getLineUserInfo(request.getIdToken());
+        Pair<String, String> userInfo = Pair.of("fuga", "稲田裕次郎");
 
         Room room = roomRepo.findByRoomCode(request.getRoomCode()).get();
         if (userInfo.getFirst().equals(room.getAUserId()) || userInfo.getFirst().equals(room.getJudgeUserId())) {
@@ -76,8 +77,9 @@ public class RoomController {
     @ResponseBody
     @PostMapping(value = "/rooms/judger")
     public void putJudger(@RequestBody RoomRequest request) throws Exception {
-        Pair<String, String> userInfo = lineUserService.getLineUserInfo(request.getIdToken());
-        // Pair<String, String> userInfo = Pair.of("fuga", "稲田裕次郎");
+        // Pair<String, String> userInfo =
+        // lineUserService.getLineUserInfo(request.getIdToken());
+        Pair<String, String> userInfo = Pair.of("fuga", "稲田裕次郎");
 
         Room room = roomRepo.findByRoomCode(request.getRoomCode()).get();
         if (userInfo.getFirst().equals(room.getAUserId()) || userInfo.getFirst().equals(room.getBUserId())) {
@@ -119,7 +121,7 @@ public class RoomController {
         return emitter;
     }
 
-    // @PostConstruct
+    @PostConstruct
     public void init() {
         Room room = new Room();
         room.setRoomCode("A1717");
