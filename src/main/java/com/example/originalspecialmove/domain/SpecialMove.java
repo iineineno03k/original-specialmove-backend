@@ -34,7 +34,7 @@ public class SpecialMove {
     private int battleCount;
     private int winCount;
     private int loseCount;
-    @Formula("CASE WHEN battleCount > 0 THEN (winCount * 1.0 / battleCount) ELSE 0 END")
+    @Formula("CASE WHEN battle_count > 0 THEN (win_count * 1.0 / battle_count) ELSE 0 END")
     private double winRate;
 
     public String getImagePath() {
