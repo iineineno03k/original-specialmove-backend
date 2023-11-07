@@ -28,7 +28,7 @@ public class LineBotController {
     public ResponseEntity<Void> handleTextMessage(MessageEvent<TextMessageContent> event) {
         String userMessage = event.getMessage().getText();
 
-        if ("部屋を作成".equals(userMessage)) {
+        if ("オレ技対戦を申し込む".equals(userMessage)) {
             String roomCode = getRandomRoomCode();
             String liffUrl = "https://liff.line.me/2001116233-Xw8xde2q?roomCode=" + roomCode;
 
