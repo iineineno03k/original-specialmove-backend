@@ -36,7 +36,7 @@ public class LineBotController {
             room.setRoomCode(roomCode);
             roomRepo.save(room);
 
-            TextMessage replyMessage = new TextMessage("対戦ルームはこちらです！\n" + liffUrl);
+            TextMessage replyMessage = new TextMessage("オレ技対戦会場はこちらだ！\n" + liffUrl);
             ReplyMessage reply = new ReplyMessage(event.getReplyToken(), replyMessage);
 
             lineMessagingClient.replyMessage(reply);
