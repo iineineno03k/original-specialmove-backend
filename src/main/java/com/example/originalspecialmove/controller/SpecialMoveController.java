@@ -101,7 +101,7 @@ public class SpecialMoveController {
         List<SpecialMoveDto> filteredBattleList = battleList.stream()
                 .filter(battleItem -> checkedSpList.stream()
                         .noneMatch(checkedItem -> checkedItem.getSpId().equals(battleItem.getId()) &&
-                                Duration.between(checkedItem.getCheckedTime(), LocalDateTime.now()).toDays() < 1))
+                                Duration.between(checkedItem.getCheckedTime(), LocalDateTime.now()).toHours() < 12))
                 .collect(Collectors.toList());
 
         Collections.shuffle(filteredBattleList);
