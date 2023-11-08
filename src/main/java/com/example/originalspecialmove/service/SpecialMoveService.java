@@ -157,6 +157,7 @@ public class SpecialMoveService {
             SpecialMoveDto spDto = new SpecialMoveDto(sp);
             spList.add(spDto);
         }
+        
 
         return spList;
     }
