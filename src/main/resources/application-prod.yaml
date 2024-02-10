@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${DB_URL}
+    url: jdbc:mysql://${DB_HOST}/original-specialmove
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
