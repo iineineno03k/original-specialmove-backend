@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
+  jpa:
+    hibernate:
+      ddl-auto: update
+cloudflare:
+  r2:
+    credentials:
+      accessKey: ${STORAGE_ACCESSKEY}
+      secretKey: ${STORAGE_SECRETKEY}
+    stack:
+      auto: false
+line:
+  bot:
+    channelToken: ${LINE_TOKEN}
+    channelSecret: ${LINE_SECRET}
+    handler:
+      path: /webhook
+# logging:
+#   level:
+#     org.springframework.web: DEBUG
