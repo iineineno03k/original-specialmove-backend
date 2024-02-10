@@ -24,6 +24,6 @@ line:
     channelSecret: ${LINE_SECRET}
     handler:
       path: /webhook
-# logging:
-#   level:
-#     org.springframework.web: DEBUG
+logging:
+  level:
+    root: DEBUG
