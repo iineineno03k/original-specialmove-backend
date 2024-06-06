@@ -40,7 +40,7 @@ LABEL org.name="originalspecialmove"
 #
 # Package stage
 #
-FROM eclipse-temurin:17-jdk-jammy
+FROM --platform=linux/x86_64 eclipse-temurin:17-jdk-jammy
 COPY --from=build /home/gradle/src/build/libs/original-specialmove-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
