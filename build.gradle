@@ -35,7 +35,9 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3'
 	implementation 'com.linecorp.bot:line-bot-spring-boot:6.0.0'
 	//PlanetScale DB
-	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+	//runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+	//Neon DB
+	runtimeOnly 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {
